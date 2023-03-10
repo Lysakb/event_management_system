@@ -19,7 +19,7 @@ const authentication = async (req, res, next)=>{
         }
 
         if(!token){
-            res.status(400).send("No token")
+          return res.status(400).send("No token")
         }
     }
 }
