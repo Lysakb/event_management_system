@@ -20,7 +20,15 @@ const eventSchema = new Schema({
     description:{
         type: String,
         required: true
-    }
+    },
+
+    Attendee: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Attendee",
+        
+        }
+    ]
 })
 
 const eventModel = mongoose.model("Event", eventSchema);
