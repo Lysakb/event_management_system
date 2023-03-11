@@ -18,6 +18,6 @@ const attendeeSchema = new Schema({
     }
 })
 
-const attendeeModel = mongoose.model("User", attendeeSchema);
+const attendeeModel = mongoose.model("Attendee", attendeeSchema);
 
 module.exports = attendeeModel;
