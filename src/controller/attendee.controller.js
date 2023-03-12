@@ -1,13 +1,27 @@
 const attendeeModel = require("../model/attendee");
+const eventModel = require("../model/event");
 
-const createAttendee = async(req, res)=>{
-    const body = req.body;
+const createAttendee = async (req, res)=>{
+    const id = req.params.id; 
+    const {name, email} = req.body;
 
     try {
-        const attendee = await attendeeModel.create(body);
-        res.status(200).send({message:"Attendee created", attendee});
+        const event = await eventModel.findById(id);
+        const attendee = new attendeeModel({
+            name: name,
+            email: email,
+            // username: `${user.username}`
+
+        }); 
+        event.attendee = event.attendee.concat(attendee._id)
+        await event.save();
+        await attendee.save();
+        res.status(200).send({
+            message: "Attendee created and added to event!",
+            event
+        });
     } catch (error) {
-        res.status(400).send(error.message);
+        res.status(400).send(error.message)
     }
 }
 

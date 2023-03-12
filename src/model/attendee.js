@@ -12,13 +12,13 @@ const attendeeSchema = new Schema({
         required: true
     },
 
-    event: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Attendee",
-            required: true
-        }
-    ]
+    // event_id: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Event",
+    //         required: true
+    //     }
+    // ]
 })
 
 const attendeeModel = mongoose.model("Attendee", attendeeSchema);

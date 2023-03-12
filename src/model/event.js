@@ -22,13 +22,11 @@ const eventSchema = new Schema({
         required: true
     },
 
-    Attendee: [
+    attendee: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Attendee",
-        
-        }
-    ]
+        }]
 })
 
 const eventModel = mongoose.model("Event", eventSchema);
