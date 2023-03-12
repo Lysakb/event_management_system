@@ -12,11 +12,10 @@ const attendeeSchema = new Schema({
         required: true
     },
 
-    // event_id: [
+    // event: [
     //     {
     //         type: mongoose.Schema.Types.ObjectId,
     //         ref: "Event",
-    //         required: true
     //     }
     // ]
 })

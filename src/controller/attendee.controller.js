@@ -2,24 +2,14 @@ const attendeeModel = require("../model/attendee");
 const eventModel = require("../model/event");
 
 const createAttendee = async (req, res)=>{
-    const id = req.params.id; 
-    const {name, email} = req.body;
+    const body = req.body;
 
     try {
-        const event = await eventModel.findById(id);
-        const attendee = new attendeeModel({
-            name: name,
-            email: email,
-            // username: `${user.username}`
-
-        }); 
-        event.attendee = event.attendee.concat(attendee._id)
-        await event.save();
+        const attendee = await attendeeModel.create(body); 
+       
         await attendee.save();
-        res.status(200).send({
-            message: "Attendee created and added to event!",
-            event
-        });
+        res.status(200).send(attendee);
+       
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -27,7 +17,7 @@ const createAttendee = async (req, res)=>{
 
 const getAttendee = async(req, res)=>{
     try {
-        const events = await attendeeModel.find()
+        const events = await attendeeModel.find();
         res.status(200).send(events);
     } catch (error) {
         res.status(400).send(error.message);

@@ -16,7 +16,7 @@ const createEvent = async(req, res)=>{
 
 const getEvents = async(req, res)=>{
     try {
-        const events = await eventModel.find().populate("attendee", {name: 0, email: 0});
+        const events = await eventModel.find().populate("attendee", {name: 0, email: 0, event: 0});
         res.status(200).send(events);
     } catch (error) {
         res.status(400).send(error.message);
@@ -72,4 +72,24 @@ const deleteEvents = async(req, res)=>{
     }
 }
 
-module.exports = {createEvent, getEvents, getEventsById, updateEvents, deleteEvents}
+const Addattendee = async(req, res)=>{
+    const id = req.params.id;
+    const {attendee} = req.body;
+
+    try {
+        const event = await eventModel.findById(id);
+        const Attendee = await attendeeModel.findById({_id: attendee});
+
+        event.attendee = event.attendee.concat(Attendee._id);
+        await event.save();
+        await Attendee.save();
+
+        res.status(200).send({message: `${Attendee.name} is added to the event!`, event})
+       
+    } catch (error) {
+        res.status(400).send(error.message);
+    } 
+
+}
+
+module.exports = {createEvent, getEvents, getEventsById, updateEvents, deleteEvents, Addattendee}
