@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const attendeeModel = require("../model/attendee");
 const eventModel = require("../model/event");
 
@@ -65,7 +66,13 @@ const deleteEvents = async(req, res)=>{
 
     try {
         const event = await eventModel.findByIdAndDelete(id);
-
+        const index = attendee.event.indexOf(id);
+    
+        if(index !== -1){
+            event.attendee.splice(index, 1) 
+        
+        await attendee.save()
+        }
         res.status(200).send({message: "Event deleted successfully!"})
     } catch (error) {
         res.status(400).send(error.message);
@@ -80,10 +87,16 @@ const Addattendee = async(req, res)=>{
         const event = await eventModel.findById(id);
         const Attendee = await attendeeModel.findById({_id: attendee});
 
+        // const savedAttendee = await attendeeModel.find(attendee)
+        // if(savedAttendee){
+        //     return res.status(200).json({message: "Attendee is already added"})
+        // }
+
         event.attendee = event.attendee.concat(Attendee._id);
         await event.save();
         await Attendee.save();
 
+        
         res.status(200).send({message: `${Attendee.name} is added to the event!`, event})
        
     } catch (error) {
@@ -92,4 +105,20 @@ const Addattendee = async(req, res)=>{
 
 }
 
-module.exports = {createEvent, getEvents, getEventsById, updateEvents, deleteEvents, Addattendee}
+const getEventStats = async(req, res)=>{
+    try {
+        const stats = await eventModel.aggregate([
+              { 
+                $group: {
+                  _id: '$_id',
+                  count: { $sum: 1 },
+                }
+              }
+               ])
+        console.log(stats)
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+ 
+module.exports = {createEvent, getEvents, getEventsById, updateEvents, deleteEvents, Addattendee, getEventStats}

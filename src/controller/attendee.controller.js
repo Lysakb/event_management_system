@@ -61,6 +61,10 @@ const deleteAttendee = async(req, res)=>{
     try {
         const event = await attendeeModel.findByIdAndDelete(id);
 
+        if(!event){
+            return res.status(500).send({message: "This attendee does not exist!"})
+        }
+
         res.status(200).send({message: "Attendee deleted successfully!"})
     } catch (error) {
         res.status(400).send(error.message);
