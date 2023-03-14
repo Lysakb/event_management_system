@@ -73,5 +73,12 @@ Based on the requirements analysis, the following schema can be designed:
 -   POST/attendee/add - create attendees.
 -   DELETE/attendee/:{attendeeId} - Delete attendees.
 
+```
 ## Database
 Mongodb
+
+```
+## Postman documentation
+https://documenter.getpostman.com/view/23185549/2s93JwMMWv
+
+## Render link
