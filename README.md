@@ -3,11 +3,11 @@
 ### User Story
 An event organizer should be able to create and manage events. This include:
 
-Register and log in to the platform and getting a welcome mail on registeration.
-Create new events with details such as name, date, location, description.
-Manage attendees by adding, editing and removing attendees from the event.
-Attendees should get a mail when they are added to or removed from an event.
-Generate reports for each event with information about attendee count.
+1. Register and log in to the platform and getting a welcome mail on registeration.
+2. Create new events with details such as name, date, location, description.
+3. Manage attendees by adding, editing and removing attendees from the event.
+4. Attendees should get a mail when they are added to or removed from an event.
+5. Generate reports for each event with information about attendee count.
 
 
 ### Entities:
