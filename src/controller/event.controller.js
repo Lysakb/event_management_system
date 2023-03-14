@@ -84,7 +84,6 @@ const Addattendee = async(req, res)=>{
         
         const event = await eventModel.findById(id);
         const Attendee = await attendeeModel.findById({_id: attendee});
-
  
         event.attendee = event.attendee.concat(Attendee._id);
         await event.save();
@@ -99,7 +98,7 @@ const Addattendee = async(req, res)=>{
         
         res.status(200).send({message: `${Attendee.name} is added to the event!`, event})
        
-    } catch (error) {
+    } catch (error) { 
         res.status(400).send(error.message);
     } 
 
@@ -110,12 +109,12 @@ const getEventStats = async(req, res)=>{
         const stats = await eventModel.aggregate([
             {$lookup: { from: 'attendees', localField: 'Attendees', foreignField: '_id', as: 'attendeeDetails'}},
             {$project: {
-            _id: 0,
+            _id: "$_id",
             attendeeCount: {$sum: 1}
            
            }},
            ])
-        console.log({stats})
+        res.status(201).json(stats)
     } catch (error) {
         res.status(400).send(error.message); 
     }

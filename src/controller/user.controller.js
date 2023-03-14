@@ -22,7 +22,7 @@ const register = async(req, res)=>{
 
         await user.save();
 
-        const message = `Dear ${user.name}. \n You have succesfully registered to this platform.`
+        const message = `Dear ${user.name}. You have succesfully registered to this platform.`
         await sendEmail({
             email: user.email,
             subject: "Registration",

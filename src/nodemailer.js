@@ -27,6 +27,6 @@ const transporter = nodemailer.createTransport({
 
   await transporter.sendMail(mailOptions);
 }
-
+ 
 
 module.exports = sendEmail;
