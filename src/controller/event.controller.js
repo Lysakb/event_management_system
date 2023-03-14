@@ -1,6 +1,6 @@
-const { default: mongoose } = require("mongoose");
 const attendeeModel = require("../model/attendee");
 const eventModel = require("../model/event");
+const sendEmail = require("../nodemailer");
 
 const createEvent = async(req, res)=>{
     const body = req.body;
@@ -66,14 +66,11 @@ const deleteEvents = async(req, res)=>{
 
     try {
         const event = await eventModel.findByIdAndDelete(id);
-        const index = attendee.event.indexOf(id);
-    
-        if(index !== -1){
-            event.attendee.splice(index, 1) 
-        
-        await attendee.save()
+       
+        if(!event){
+            return res.status(500).send({meesage: "Event is not available"})
         }
-        res.status(200).send({message: "Event deleted successfully!"})
+    res.status(200).send({message: "Event deleted successfully!"})
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -84,18 +81,21 @@ const Addattendee = async(req, res)=>{
     const {attendee} = req.body;
 
     try {
+        
         const event = await eventModel.findById(id);
         const Attendee = await attendeeModel.findById({_id: attendee});
 
-        // const savedAttendee = await attendeeModel.find(attendee)
-        // if(savedAttendee){
-        //     return res.status(200).json({message: "Attendee is already added"})
-        // }
-
+ 
         event.attendee = event.attendee.concat(Attendee._id);
         await event.save();
         await Attendee.save();
 
+        const message = `You have been added to the event: ${event.name}`
+        await sendEmail({
+            email: Attendee.email,
+            subject: "Technology",
+            message
+        })
         
         res.status(200).send({message: `${Attendee.name} is added to the event!`, event})
        
@@ -108,16 +108,16 @@ const Addattendee = async(req, res)=>{
 const getEventStats = async(req, res)=>{
     try {
         const stats = await eventModel.aggregate([
-              { 
-                $group: {
-                  _id: '$_id',
-                  count: { $sum: 1 },
-                }
-              }
-               ])
-        console.log(stats)
+            {$lookup: { from: 'attendees', localField: 'Attendees', foreignField: '_id', as: 'attendeeDetails'}},
+            {$project: {
+            _id: 0,
+            attendeeCount: {$sum: 1}
+           
+           }},
+           ])
+        console.log({stats})
     } catch (error) {
-        res.status(400).send(error.message);
+        res.status(400).send(error.message); 
     }
 }
  

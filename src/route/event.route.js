@@ -12,4 +12,5 @@ eventRoute.post("/add-to-event/:id", authentication, Addattendee);
 eventRoute.get("/get-stats/:id", authentication, getEventStats); 
 
 
+
 module.exports = eventRoute;

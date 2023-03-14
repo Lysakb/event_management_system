@@ -10,14 +10,7 @@ const attendeeSchema = new Schema({
     email:{
         type: String,
         required: true
-    },
-
-    // event: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: "Event",
-    //     }
-    // ]
+    }
 })
 
 const attendeeModel = mongoose.model("Attendee", attendeeSchema);

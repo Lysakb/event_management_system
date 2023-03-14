@@ -1,6 +1,7 @@
 const userModel = require("../model/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const sendEmail = require("../nodemailer");
 require("dotenv").config();
 
 const register = async(req, res)=>{
@@ -20,6 +21,14 @@ const register = async(req, res)=>{
         })
 
         await user.save();
+
+        const message = `Dear ${user.name}. \n You have succesfully registered to this platform.`
+        await sendEmail({
+            email: user.email,
+            subject: "Registration",
+            message
+        })
+        
         res.status(200).send(user);
     } catch (error) {
         res.status(400).send(error.message)
