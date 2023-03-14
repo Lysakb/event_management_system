@@ -1,4 +1,4 @@
-# event_management_system
+# Event_management_system
 
 ### User Story
 An event organizer should be able to create and manage events. This include:
