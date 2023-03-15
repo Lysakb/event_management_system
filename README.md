@@ -85,5 +85,5 @@ https://documenter.getpostman.com/view/23185549/2s93JwMMWv
 https://event-management-system-2mri.onrender.com
 
 ## Mailtrap login
-username: lizzykate145@gmail.com
-password: lizzykate123#
+-username: lizzykate145@gmail.com
+-password: lizzykate123#
