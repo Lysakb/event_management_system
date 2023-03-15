@@ -83,3 +83,7 @@ https://documenter.getpostman.com/view/23185549/2s93JwMMWv
 
 ## Render link
 https://event-management-system-2mri.onrender.com
+
+## Mailtrap login
+username: lizzykate145@gmail.com
+password: lizzykate123#
