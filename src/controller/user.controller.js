@@ -5,7 +5,7 @@ const sendEmail = require("../nodemailer");
 require("dotenv").config();
 
 const register = async(req, res)=>{
-    const {name, email, password} = req.body;
+    const {name, email, password, role} = req.body;
     try {
         const existingUser = await userModel.findOne({email})
         if(existingUser){
@@ -17,7 +17,8 @@ const register = async(req, res)=>{
         const user = new userModel({
             name: name, 
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: role
         })
 
         await user.save();

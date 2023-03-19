@@ -59,6 +59,21 @@ const updateEvents = async(req, res)=>{
     } catch (error) {
         res.status(400).send(error.message);
     }
+};
+
+const changeStatus = async(req, res)=>{
+    const id = req.params.id;
+    const {status} = req.body;
+
+    try {
+        const event = await eventModel.findByIdAndUpdate(id, {$set: {status: status}},
+            {new: true});
+
+            await event.save(); 
+        res.status(200).send(event);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 }
 
 const deleteEvents = async(req, res)=>{
@@ -120,4 +135,4 @@ const getEventStats = async(req, res)=>{
     }
 }
  
-module.exports = {createEvent, getEvents, getEventsById, updateEvents, deleteEvents, Addattendee, getEventStats}
+module.exports = {createEvent, getEvents, getEventsById, updateEvents, changeStatus, deleteEvents, Addattendee, getEventStats}
