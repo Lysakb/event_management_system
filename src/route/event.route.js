@@ -4,7 +4,7 @@ const {createEvent, getEvents, getEventsById, updateEvents, deleteEvents, Addatt
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 
-eventRoute.post("/add", createEvent);
+eventRoute.post("/add", authentication, createEvent);
 eventRoute.get("/", getEvents);
 eventRoute.get("/:id", authentication, getEventsById);
 eventRoute.put("/update/:id", authentication, updateEvents);
