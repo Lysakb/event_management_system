@@ -82,7 +82,7 @@ Mongodb
 https://documenter.getpostman.com/view/23185549/2s93JwMMWv
 
 ## Render link
-https://event-management-system-2mri.onrender.com
+new link: https://event-management-system-0iv4.onrender.com 
 
 ## Mailtrap login
 -username: lizzykate145@gmail.com
