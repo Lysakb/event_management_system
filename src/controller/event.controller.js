@@ -68,7 +68,7 @@ const changeStatus = async(req, res)=>{
     try {
         const event = await eventModel.findByIdAndUpdate(id, {$set: {status: status}},
             {new: true});
-
+ 
             await event.save(); 
         res.status(200).send(event);
     } catch (error) {

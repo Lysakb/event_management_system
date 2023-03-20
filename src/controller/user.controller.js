@@ -51,8 +51,8 @@ const login = async(req, res)=>{
             return res.status(401).send({message: "Incorrect password!"});
         }
         const userID = {
-            email: user.email,
-            password: user.password
+            id: user._id,
+            email: user.email
         }
 
         const token = jwt.sign(userID, process.env.SECRET_KEY, {expiresIn: "1h"});

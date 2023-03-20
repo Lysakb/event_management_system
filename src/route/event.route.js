@@ -11,7 +11,7 @@ eventRoute.put("/update/:id", authentication, updateEvents);
 eventRoute.delete("/delete/:id", authentication, deleteEvents);
 eventRoute.post("/add-to-event/:id", authentication, Addattendee);
 eventRoute.get("/get-stats/:id", authentication, getEventStats); 
-eventRoute.put("/change-status/:id", authentication, authorization, changeStatus);
+eventRoute.put("/change-status/:id", authentication, authorization, changeStatus); 
 
 
 

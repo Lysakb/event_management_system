@@ -10,8 +10,8 @@ const authentication = async (req, res, next)=>{
             token = req.headers.authorization.split(" ")[1];
 
             const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
-
-            req.user = await userModel.findById(verifiedToken.id);
+           
+            req.user = await userModel.findById(verifiedToken.id); 
 
             next()
         } catch (error) {
