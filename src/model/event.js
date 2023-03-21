@@ -27,6 +27,11 @@ const eventSchema = new Schema({
         enum: ["approved", "rejected"]
     },
 
+    // reason: {
+    //     type: String,
+        
+    // },
+
     attendee: [
         {
             type: mongoose.Schema.Types.ObjectId,

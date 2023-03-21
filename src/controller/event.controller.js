@@ -63,14 +63,22 @@ const updateEvents = async(req, res)=>{
 
 const changeStatus = async(req, res)=>{
     const id = req.params.id;
-    const {status} = req.body;
+    const {status, reason} = req.body;
+    const user = req.user;
 
     try {
-        const event = await eventModel.findByIdAndUpdate(id, {$set: {status: status}},
+        const event = await eventModel.findByIdAndUpdate(id, {$set: {status: status, reason: reason}},
             {new: true});
  
-            await event.save(); 
+            await event.save({status: status}); 
         res.status(200).send(event);
+        if(event.status === "rejected"){
+            return await sendEmail({
+                email: user.email,
+                subject: event.name,
+                message: req.body.reason, 
+            })
+        };
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -107,7 +115,7 @@ const Addattendee = async(req, res)=>{
         const message = `You have been added to the event: ${event.name}`
         await sendEmail({
             email: Attendee.email,
-            subject: "Technology",
+            subject: event.name,
             message
         })
         
