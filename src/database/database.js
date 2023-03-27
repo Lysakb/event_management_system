@@ -4,7 +4,7 @@ require("dotenv").config();
 const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION;
 
 function connectToMongodb(){
-    mongoose.connect(MONGODB_CONNECTION);
+    mongoose.connect(MONGODB_CONNECTION || 'mongodb://localhost:27017');
 
     mongoose.connection.on("connected", ()=>{
         console.log("Connected to MongoDB successfully!");

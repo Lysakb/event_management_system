@@ -2,34 +2,36 @@ const express = require("express");
 const supertest = require("supertest");
 const eventRoute = require("../src/route/event.route");
 const eventModel = require("../src/model/event");
+const {connectToMongodb} = require("../src/database/database")
 
 const {connect} = require("./database"); 
 const app = require("../src/index")
 const api = supertest(app);
 
+describe("Event route", ()=>{ 
+    let conn 
 
-describe('POST /event/add', () => { 
-    let conn;
-
-    beforeAll(async () => {
+    beforeAll(async()=>{
+        await connectToMongodb();
         conn = await connect();
     });
 
-    afterEach(async () => { 
+    afterEach(async()=>{
         await conn.cleanup();
     });
 
-    afterAll(async () => {
+    afterAll(async()=>{
         await conn.disconnect();
     });
 
+    
     it('should create a new event post ', async () => {
         const newEvent = {
             name: "Software 3",
             date: "2023-05-24T00:00:00.000Z",
             location: "Lagos",
             description: "The software", 
-            attendee: [], 
+            attendee: [],  
             
         };
 
@@ -43,8 +45,44 @@ describe('POST /event/add', () => {
         expect(response.body.description).toBe("The software")
         expect(response.body.attendee).toBe([]);
     });
-
 })
+// describe('POST /event/add', () => { 
+//     let conn;
+
+//     beforeAll(async () => {
+//         conn = await connect();
+//     });
+
+//     afterEach(async () => { 
+        
+//     });
+
+//     afterAll(async () => {
+//         await conn.disconnect();
+//     });
+
+//     it('should create a new event post ', async () => {
+//         const newEvent = {
+//             name: "Software 3",
+//             date: "2023-05-24T00:00:00.000Z",
+//             location: "Lagos",
+//             description: "The software", 
+//             attendee: [],  
+            
+//         };
+
+//         const response = await api.post('/event/add').send(newEvent);
+
+
+//         expect(response.status).toBe(200);
+//         expect(response.body.name).toBe("Software 3");
+//         expect(response.body.date).toBe("2023-05-24T00:00:00.000Z");
+//         expect(response.body.location).toBe("Lagos")
+//         expect(response.body.description).toBe("The software")
+//         expect(response.body.attendee).toBe([]);
+//     });
+
+// })
     
 
 //     beforeAll(async () => {
