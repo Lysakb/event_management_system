@@ -3,16 +3,20 @@ require("dotenv").config();
 
 const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION;
 
-function connectToMongodb(){
-    mongoose.connect(MONGODB_CONNECTION || 'mongodb://localhost:27017');
 
-    mongoose.connection.on("connected", ()=>{
-        console.log("Connected to MongoDB successfully!");
-    });
+const connectToMongodb = async () => {
+  mongoose.connect(MONGODB_CONNECTION || "mongodb://localhost:27017");
 
-    mongoose.connection.on("error", (err)=>{
-        console.log("Connection error");
-    });
-}
+  mongoose.connection.on("connected", () => {
+    console.log("Connected to MongoDB Successfully");
+  });
 
-module.exports = {connectToMongodb}
+  mongoose.connection.on("error", (err) => {
+    console.log("An error occurred while connecting to MongoDB");
+    console.log(err);
+  });
+};
+
+module.exports = {
+  connectToMongodb,
+};
