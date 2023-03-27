@@ -4,35 +4,36 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 mongoose.Promise = global.Promise;
 
 class Connection {
-    constructor() {
-        this.mongoServer = MongoMemoryServer.create();
-        this.connection = null;
-    }
+  constructor() {
+    this.mongoServer = MongoMemoryServer.create();
+    this.connection = null;
+  }
 
-    async connect() {
-        this.mongoServer = await MongoMemoryServer.create();
-        const mongoUrl = (await this.mongoServer).getUri();
+  async connect() {
+    this.mongoServer = await MongoMemoryServer.create();
+    const mongoUri = this.mongoServer.getUri();
 
-        this.connection = await mongoose.connect(mongoUrl, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-    }
+    this.connection = await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
 
-    async disconnect() {
-        await mongoose.disconnect();
-        await (await this.mongoServer).stop();
-    }
+  async disconnect() {
+    await mongoose.disconnect();
+    await this.mongoServer.stop();
+  }
 
-    async cleanup() {
-        const models = Object.keys(this.connection.models);
-        const promises = [];
-        models.map((model) => {
-            promises.push(this.connection.models[model].deleteMany({}));
-        });
+  async cleanup() {
+    const models = Object.keys(this.connection.models);
+    const promises = [];
 
-        await Promise.all(promises);
-    }
+    models.map((model) => {
+      promises.push(this.connection.models[model].deleteMany({}));
+    });
+
+    await Promise.all(promises);
+  }
 }
 
 /**
@@ -42,7 +43,7 @@ class Connection {
  * @return {Promise<Object>}
  */
 exports.connect = async () => {
-    const conn = new Connection();
-    await conn.connect();
-    return conn;
+  const conn = new Connection();
+  await conn.connect();
+  return conn;
 };
