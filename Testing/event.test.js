@@ -1,51 +1,42 @@
-const express = require("express");
 const supertest = require("supertest");
-const eventRoute = require("../src/route/event.route");
-const eventModel = require("../src/model/event");
-
-const {connect} = require("./database"); 
-const app = require("../src/index")
+const { connect } = require("./database");
+const app = require("../src/index");
 const api = supertest(app);
 
+describe("POST /event/add", () => {
+  let conn;
 
-describe('POST /event/add', () => { 
-    let conn;
+  beforeAll(async () => {
+    conn = await connect();
+  });
 
-    beforeAll(async () => {
-        conn = await connect();
-    });
+  afterEach(async () => {
+    await conn.cleanup();
+  });
 
-    afterEach(async () => { 
-        await conn.cleanup();
-    });
+  afterAll(async () => {
+    await conn.disconnect();
+  });
 
-    afterAll(async () => {
-        await conn.disconnect();
-    });
+  it("should create a new event post ", async () => {
+    const newEvent = {
+      name: "Software 3",
+      date: "2023-05-24T00:00:00.000Z",
+      location: "Lagos",
+      description: "The software",
+      attendee: [],
+    };
 
-    it('should create a new event post ', async () => {
-        const newEvent = {
-            name: "Software 3",
-            date: "2023-05-24T00:00:00.000Z",
-            location: "Lagos",
-            description: "The software", 
-            attendee: [], 
-            
-        };
+    const response = await api.post("/event/add").send(newEvent);
 
-        const response = await api.post('/event/add').send(newEvent);
-
-
-        expect(response.status).toBe(200);
-        expect(response.body.name).toBe("Software 3");
-        expect(response.body.date).toBe("2023-05-24T00:00:00.000Z");
-        expect(response.body.location).toBe("Lagos")
-        expect(response.body.description).toBe("The software")
-        expect(response.body.attendee).toBe([]);
-    });
-
-})
-    
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe("Software 3");
+    expect(response.body.date).toBe("2023-05-24T00:00:00.000Z");
+    expect(response.body.location).toBe("Lagos");
+    expect(response.body.description).toBe("The software");
+    expect(response.body.attendee).toBe([]);
+  });
+});
 
 //     beforeAll(async () => {
 //         conn = await connect();
@@ -96,8 +87,7 @@ describe('POST /event/add', () => {
 //     expect(response.body.message).toBe('No events found!');
 //   });
 // });
-jest.setTimeout(30000); 
-
+jest.setTimeout(30000);
 
 // describe("event", ()=>{
 //     describe("get event route",()=>{
@@ -133,4 +123,3 @@ jest.setTimeout(30000);
 //         expect(statusCode).toBe(200);
 //     })
 // })
-
