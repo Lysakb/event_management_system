@@ -6,7 +6,7 @@ const api = supertest(app);
 describe("POST /event/add", () => {
   let conn;
 
-  beforeAll(async () => {
+  beforeAll(async () => { 
     conn = await connect();
   });
 
