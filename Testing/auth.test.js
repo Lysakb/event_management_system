@@ -10,9 +10,9 @@ describe("Auth route test", () => {
     conn = await connect();
   });
 
-  afterEach(async () => {
-    await conn.cleanup();
-  });
+  // afterEach(async () => {
+  //   await conn.cleanup();
+  // });
 
   afterAll(async () => {
     await conn.disconnect();
@@ -29,14 +29,10 @@ describe("Auth route test", () => {
   });
 
   it("should login a user", async () => {
-    const user = await userModel.create({
-      name: "Gift",
-      password: "Password123",
-      email: "Gift@mail.com",
-      role: "user",
-    });
 
-    const response = await request(app).post("/user/login").send({});
+    const response = await request(app)
+      .post("/user/login")
+      .send({ email: "victor@mail.com", password: "Password123" });
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token");
